@@ -1,0 +1,58 @@
+# Build artifacts
+bin/
+obj/
+publish/
+
+# IDE and editor files
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Git files
+.git/
+.gitignore
+.gitattributes
+
+# Documentation and markdown
+*.md
+README.*
+LICENSE
+
+# Test results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# NuGet packages
+*.nupkg
+*.snupkg
+packages/
+
+# Development settings
+launchSettings.json
+appsettings.Development.json
+appsettings.Local.json
+
+# Log files
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Docker files
+Dockerfile*
+docker-compose*
+.dockerignore

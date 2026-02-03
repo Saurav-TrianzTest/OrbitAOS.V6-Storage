@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  testsanity-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: testsanity:latest
+    container_name: testsanity-app
+    ports:
+      - "5000:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:5000
+      - TZ=UTC
+      # External service connections - configure these for your environment
+      - DatabaseConnection=${DATABASE_CONNECTION:-}
+      - RedisConnection=${REDIS_CONNECTION:-}
+      - KafkaBootstrapServers=${KAFKA_BOOTSTRAP_SERVERS:-}
+    volumes:
+      - ./logs:/app/logs
+      - ./appsettings:/app/appsettings:ro
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "dotnet --list-runtimes || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  logs:
+  appsettings:

@@ -14,6 +14,10 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
+// Add health checks for container orchestration
+builder.Services.AddHealthChecks()
+    .AddDbContextCheck<ApplicationDbContext>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -32,6 +36,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+// Health check endpoints for container orchestration
+app.MapHealthChecks("/health/ready");
+app.MapHealthChecks("/health/live");
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -1,0 +1,67 @@
+{
+  "family": "testsanity-task",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "executionRoleArn": "arn:aws:iam::{{ACCOUNT_ID}}:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::{{ACCOUNT_ID}}:role/ecsTaskRole",
+  "containerDefinitions": [
+    {
+      "name": "testsanity",
+      "image": "{{IMAGE_URI}}",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 5000,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "ASPNETCORE_ENVIRONMENT",
+          "value": "Production"
+        },
+        {
+          "name": "ASPNETCORE_URLS",
+          "value": "http://+:5000"
+        },
+        {
+          "name": "DOTNET_SYSTEM_GLOBALIZATION_INVARIANT",
+          "value": "false"
+        },
+        {
+          "name": "TZ",
+          "value": "UTC"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/testsanity",
+          "awslogs-region": "{{AWS_REGION}}",
+          "awslogs-stream-prefix": "ecs",
+          "awslogs-create-group": "true"
+        }
+      },
+      "mountPoints": [],
+      "volumesFrom": []
+    }
+  ],
+  "volumes": [],
+  "placementConstraints": [],
+  "tags": [
+    {
+      "key": "Application",
+      "value": "TestSanity"
+    },
+    {
+      "key": "Environment",
+      "value": "Production"
+    },
+    {
+      "key": "ManagedBy",
+      "value": "ECS"
+    }
+  ]
+}
