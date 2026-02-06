@@ -1,0 +1,52 @@
+# Build artifacts
+bin/
+obj/
+**/bin/
+**/obj/
+
+# IDE and editor files
+.vs/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git files
+.git/
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+README*
+
+# Logs
+logs/
+*.log
+
+# Environment files
+.env
+.env.local
+
+# Test results
+TestResults/
+
+# NuGet packages
+*.nupkg
+*.snupkg
+packages/
+
+# Visual Studio cache/options
+.vs/
+*.suo
+*.user
+*.sln.docstates
+
+# Development settings
+launchSettings.json
+appsettings.Development.json

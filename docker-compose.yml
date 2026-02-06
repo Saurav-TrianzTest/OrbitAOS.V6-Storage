@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  orbitaos-v6:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: orbitaos-v6:latest
+    container_name: orbitaos-v6-app
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+      - DB_SERVER=${DB_SERVER:-sql-server}
+      - DB_NAME=${DB_NAME:-OrbitAOS}
+      - DB_USER=${DB_USER:-sa}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - CONNECTION_STRING=${CONNECTION_STRING}
+    volumes:
+      - ./logs:/app/logs
+      - ./appsettings:/app/appsettings:ro
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:80/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  logs:
+  appsettings:
