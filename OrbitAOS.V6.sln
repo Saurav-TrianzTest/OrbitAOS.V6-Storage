@@ -1,9 +1,15 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.5.33424.131
+VisualStudioVersion = 17.8.0.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrbitAOS.V6", "OrbitAOS.V6\OrbitAOS.V6.csproj", "{60CC7D2A-E113-4BEB-9997-EF84338AD8C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrbitAOS.V6.Domain", "OrbitAOS.V6.Domain\OrbitAOS.V6.Domain.csproj", "{A1B2C3D4-E5F6-4A5B-8C9D-0E1F2A3B4C5D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrbitAOS.V6.Application", "OrbitAOS.V6.Application\OrbitAOS.V6.Application.csproj", "{B2C3D4E5-F6A7-4B5C-9D0E-1F2A3B4C5D6E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrbitAOS.V6.Infrastructure", "OrbitAOS.V6.Infrastructure\OrbitAOS.V6.Infrastructure.csproj", "{C3D4E5F6-A7B8-4C5D-0E1F-2A3B4C5D6E7F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrbitAOS.V6.Web", "OrbitAOS.V6.Web\OrbitAOS.V6.Web.csproj", "{D4E5F6A7-B8C9-4D5E-1F2A-3B4C5D6E7F8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +17,27 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{60CC7D2A-E113-4BEB-9997-EF84338AD8C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{60CC7D2A-E113-4BEB-9997-EF84338AD8C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{60CC7D2A-E113-4BEB-9997-EF84338AD8C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{60CC7D2A-E113-4BEB-9997-EF84338AD8C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B2C3D4-E5F6-4A5B-8C9D-0E1F2A3B4C5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B2C3D4-E5F6-4A5B-8C9D-0E1F2A3B4C5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B2C3D4-E5F6-4A5B-8C9D-0E1F2A3B4C5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B2C3D4-E5F6-4A5B-8C9D-0E1F2A3B4C5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2C3D4E5-F6A7-4B5C-9D0E-1F2A3B4C5D6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2C3D4E5-F6A7-4B5C-9D0E-1F2A3B4C5D6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2C3D4E5-F6A7-4B5C-9D0E-1F2A3B4C5D6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2C3D4E5-F6A7-4B5C-9D0E-1F2A3B4C5D6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3D4E5F6-A7B8-4C5D-0E1F-2A3B4C5D6E7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3D4E5F6-A7B8-4C5D-0E1F-2A3B4C5D6E7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3D4E5F6-A7B8-4C5D-0E1F-2A3B4C5D6E7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3D4E5F6-A7B8-4C5D-0E1F-2A3B4C5D6E7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4E5F6A7-B8C9-4D5E-1F2A-3B4C5D6E7F8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4E5F6A7-B8C9-4D5E-1F2A-3B4C5D6E7F8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4E5F6A7-B8C9-4D5E-1F2A-3B4C5D6E7F8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4E5F6A7-B8C9-4D5E-1F2A-3B4C5D6E7F8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {360CBEEE-F286-4823-A656-2825A82E521F}
+		SolutionGuid = {E5F6A7B8-C9D0-4E5F-2A3B-4C5D6E7F8A9B}
 	EndGlobalSection
 EndGlobal
