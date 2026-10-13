@@ -1,0 +1,53 @@
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to OrbitAOS Book Management</h1>
+    <p class="lead">A comprehensive book management system built on ASP.NET Core MVC .NET 8.</p>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="bi bi-book"></i> Browse Books
+                </h5>
+                <p class="card-text">Explore our complete catalog of books. Search by title, author, or category.</p>
+                <a asp-controller="Books" asp-action="Index" class="btn btn-primary">View Books</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="bi bi-tags"></i> Categories
+                </h5>
+                <p class="card-text">Browse books by category to find exactly what you are looking for.</p>
+                <a asp-controller="Categories" asp-action="Index" class="btn btn-secondary">View Categories</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="bi bi-plus-circle"></i> Add New Book
+                </h5>
+                <p class="card-text">Add a new book to the catalog. Requires authentication.</p>
+                <a asp-controller="Books" asp-action="Create" class="btn btn-success">Add Book</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="alert alert-info">
+            <strong>Migration Note:</strong> This application has been successfully migrated from ASP.NET MVC 6 (net6.0)
+            to ASP.NET Core MVC on .NET 8 using Clean Architecture (Domain / Application / Infrastructure / Web layers).
+        </div>
+    </div>
+</div>
