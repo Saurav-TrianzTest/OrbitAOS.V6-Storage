@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>OrbitAOS.Domain</RootNamespace>
+    <AssemblyName>OrbitAOS.Domain</AssemblyName>
+    <!--
+      Clean Architecture: Domain Layer
+      ================================
+      This project contains:
+        - Domain entities (pure C# classes, no framework dependencies)
+        - Value objects
+        - Domain events
+        - Repository interfaces (contracts only, no implementations)
+        - Domain exceptions
+        - Enumerations
+
+      Rules:
+        - NO dependency on any other OrbitAOS project
+        - NO dependency on EF Core, ASP.NET Core, or any infrastructure package
+        - Only pure .NET BCL dependencies allowed
+    -->
+  </PropertyGroup>
+
+  <!-- No external package references – Domain layer is framework-agnostic -->
+
+</Project>

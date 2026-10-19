@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <RootNamespace>OrbitAOS.Tests</RootNamespace>
+    <AssemblyName>OrbitAOS.Tests</AssemblyName>
+    <!--
+      Unit Test Project – Clean Architecture
+      =======================================
+      Tests all layers:
+        - Domain: entity logic, value objects, domain events
+        - Application: service logic, use cases
+        - Infrastructure: repository integration tests (EF Core InMemory)
+        - Web: controller unit tests with mocked services
+    -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- xUnit test framework -->
+    <PackageReference Include="xunit" Version="2.9.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <!-- Microsoft test SDK -->
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <!-- Moq mocking framework -->
+    <PackageReference Include="Moq" Version="4.20.72" />
+    <!-- FluentAssertions for readable assertions -->
+    <PackageReference Include="FluentAssertions" Version="6.12.1" />
+    <!-- EF Core InMemory provider for repository integration tests -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.0" />
+    <!-- ASP.NET Core MVC testing utilities -->
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OrbitAOS.Domain\OrbitAOS.Domain.csproj" />
+    <ProjectReference Include="..\OrbitAOS.Application\OrbitAOS.Application.csproj" />
+    <ProjectReference Include="..\OrbitAOS.Infrastructure\OrbitAOS.Infrastructure.csproj" />
+    <ProjectReference Include="..\OrbitAOS.V6\OrbitAOS.V6.csproj" />
+  </ItemGroup>
+
+</Project>

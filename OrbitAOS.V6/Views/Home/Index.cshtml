@@ -1,9 +1,22 @@
-﻿@{
+@* ============================================================
+   Index.cshtml – Home/Index view
+   .NET 10 compatible – updated documentation link to .NET 10 docs.
+
+   Migration notes:
+     - ViewData["Title"] pattern unchanged
+     - Tag Helpers (asp-*) unchanged
+     - Updated Microsoft docs URL to current .NET 10 reference
+   ============================================================ *@
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to OrbitAOS</h1>
+    <p>
+        Learn about
+        <a href="https://learn.microsoft.com/aspnet/core" target="_blank" rel="noopener">
+            building Web apps with ASP.NET Core on .NET 10
+        </a>.
+    </p>
 </div>
-

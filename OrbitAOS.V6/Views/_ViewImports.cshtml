@@ -1,3 +1,13 @@
-﻿@using OrbitAOS.V6
+@* ============================================================
+   _ViewImports.cshtml – Web (Presentation) Layer
+   .NET 10 compatible – updated namespace reference.
+
+   Changes from net6.0:
+     - Namespace OrbitAOS.V6 unchanged (project kept same name)
+     - Tag Helpers registration unchanged
+     - Added Application-layer DTO namespace for view access
+   ============================================================ *@
+@using OrbitAOS.V6
 @using OrbitAOS.V6.Models
+@using OrbitAOS.Application.Interfaces
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

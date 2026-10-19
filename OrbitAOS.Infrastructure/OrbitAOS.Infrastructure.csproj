@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>OrbitAOS.Infrastructure</RootNamespace>
+    <AssemblyName>OrbitAOS.Infrastructure</AssemblyName>
+    <!--
+      Clean Architecture: Infrastructure Layer
+      =========================================
+      This project contains:
+        - EF Core DbContext (ApplicationDbContext)
+        - EF Core Migrations
+        - Repository implementations
+        - External service clients (email, SMS, storage)
+        - Application service implementations (HomeService, etc.)
+        - Identity configuration
+
+      Rules:
+        - Depends on OrbitAOS.Domain and OrbitAOS.Application
+        - Contains all framework/library-specific code
+        - Web layer (OrbitAOS.V6) depends on this project
+    -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OrbitAOS.Domain\OrbitAOS.Domain.csproj" />
+    <ProjectReference Include="..\OrbitAOS.Application\OrbitAOS.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- EF Core SQL Server provider (.NET 10 compatible) -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.0" />
+    <!-- EF Core design-time tools (migrations, scaffolding) -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0" />
+    <!-- ASP.NET Core Identity with EF Core backing store -->
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.0" />
+    <!-- Microsoft DI abstractions for service registration extension method -->
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0" />
+    <!-- Configuration abstractions for IConfiguration injection -->
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.0" />
+    <!-- Logging abstractions -->
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
+  </ItemGroup>
+
+</Project>

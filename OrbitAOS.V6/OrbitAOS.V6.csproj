@@ -1,18 +1,50 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-OrbitAOS.V6-afe03967-a771-44f8-b4ff-ee887e025b4f</UserSecretsId>
+    <RootNamespace>OrbitAOS.V6</RootNamespace>
+    <AssemblyName>OrbitAOS.V6</AssemblyName>
+    <!-- .NET 10 Clean Architecture: Web (Presentation) Layer -->
+    <!-- References Domain, Application, and Infrastructure layers -->
   </PropertyGroup>
 
+  <!-- ============================================================
+       Core ASP.NET Core / Identity packages (net10.0 compatible)
+       ============================================================ -->
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.19" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.19" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.19" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.19" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.19" />
+    <!-- EF Core SQL Server provider for .NET 10 -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.0" />
+    <!-- EF Core CLI tools for migrations and scaffolding -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0" />
+    <!-- EF Core design-time support (scaffold, migrations) -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0" />
+    <!-- ASP.NET Core Identity with EF Core backing store -->
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.0" />
+    <!-- Razor Pages UI scaffolding for Identity -->
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="10.0.0" />
+    <!-- Developer-friendly EF Core exception pages (Development only) -->
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="10.0.0" />
+    <!-- Distributed SQL Server cache (replaces legacy Session/OutputCache) -->
+    <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="10.0.0" />
+    <!-- IOptions pattern support -->
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.0" />
+    <!-- Newtonsoft.Json compatibility shim (optional, remove if System.Text.Json is sufficient) -->
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="10.0.0" />
+  </ItemGroup>
+
+  <!-- ============================================================
+       Clean Architecture project references
+       ============================================================ -->
+  <ItemGroup>
+    <!-- Domain layer: entities, value objects, domain events, interfaces -->
+    <ProjectReference Include="..\OrbitAOS.Domain\OrbitAOS.Domain.csproj" />
+    <!-- Application layer: use cases, DTOs, service interfaces, validators -->
+    <ProjectReference Include="..\OrbitAOS.Application\OrbitAOS.Application.csproj" />
+    <!-- Infrastructure layer: EF Core DbContext, repositories, external services -->
+    <ProjectReference Include="..\OrbitAOS.Infrastructure\OrbitAOS.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

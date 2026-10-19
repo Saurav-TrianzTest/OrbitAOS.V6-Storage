@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>OrbitAOS.Application</RootNamespace>
+    <AssemblyName>OrbitAOS.Application</AssemblyName>
+    <!--
+      Clean Architecture: Application Layer
+      ======================================
+      This project contains:
+        - Use case / service interfaces (IHomeService, etc.)
+        - DTOs and ViewModels used by use cases
+        - Application service implementations (orchestration only)
+        - Validators (FluentValidation)
+        - Mapping profiles (AutoMapper or manual mappers)
+        - Application-level exceptions
+
+      Rules:
+        - Depends ONLY on OrbitAOS.Domain
+        - NO dependency on EF Core, ASP.NET Core, or Infrastructure
+        - Defines interfaces that Infrastructure implements
+    -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Domain layer reference -->
+    <ProjectReference Include="..\OrbitAOS.Domain\OrbitAOS.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Microsoft DI abstractions for service registration extension method -->
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0" />
+    <!-- Microsoft Logging abstractions for ILogger<T> -->
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
+  </ItemGroup>
+
+</Project>
