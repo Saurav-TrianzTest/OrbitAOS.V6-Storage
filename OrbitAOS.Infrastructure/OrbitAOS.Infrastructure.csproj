@@ -6,22 +6,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>OrbitAOS.Infrastructure</RootNamespace>
     <AssemblyName>OrbitAOS.Infrastructure</AssemblyName>
-    <!--
-      Clean Architecture: Infrastructure Layer
-      =========================================
-      This project contains:
-        - EF Core DbContext (ApplicationDbContext)
-        - EF Core Migrations
-        - Repository implementations
-        - External service clients (email, SMS, storage)
-        - Application service implementations (HomeService, etc.)
-        - Identity configuration
-
-      Rules:
-        - Depends on OrbitAOS.Domain and OrbitAOS.Application
-        - Contains all framework/library-specific code
-        - Web layer (OrbitAOS.V6) depends on this project
-    -->
   </PropertyGroup>
 
   <ItemGroup>
@@ -41,6 +25,10 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0" />
     <!-- Configuration abstractions for IConfiguration injection -->
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.0" />
+    <!-- Configuration JSON file support (ConfigurationBuilder + AddJsonFile) -->
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.0" />
     <!-- Logging abstractions -->
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
   </ItemGroup>

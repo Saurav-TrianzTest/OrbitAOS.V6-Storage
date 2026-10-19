@@ -6,22 +6,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>OrbitAOS.Application</RootNamespace>
     <AssemblyName>OrbitAOS.Application</AssemblyName>
-    <!--
-      Clean Architecture: Application Layer
-      ======================================
-      This project contains:
-        - Use case / service interfaces (IHomeService, etc.)
-        - DTOs and ViewModels used by use cases
-        - Application service implementations (orchestration only)
-        - Validators (FluentValidation)
-        - Mapping profiles (AutoMapper or manual mappers)
-        - Application-level exceptions
-
-      Rules:
-        - Depends ONLY on OrbitAOS.Domain
-        - NO dependency on EF Core, ASP.NET Core, or Infrastructure
-        - Defines interfaces that Infrastructure implements
-    -->
   </PropertyGroup>
 
   <ItemGroup>

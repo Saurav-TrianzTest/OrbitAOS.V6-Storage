@@ -8,15 +8,6 @@
     <IsTestProject>true</IsTestProject>
     <RootNamespace>OrbitAOS.Tests</RootNamespace>
     <AssemblyName>OrbitAOS.Tests</AssemblyName>
-    <!--
-      Unit Test Project – Clean Architecture
-      =======================================
-      Tests all layers:
-        - Domain: entity logic, value objects, domain events
-        - Application: service logic, use cases
-        - Infrastructure: repository integration tests (EF Core InMemory)
-        - Web: controller unit tests with mocked services
-    -->
   </PropertyGroup>
 
   <ItemGroup>

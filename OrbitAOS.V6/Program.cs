@@ -13,8 +13,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OrbitAOS.Infrastructure.Data;
-using OrbitAOS.Application.Interfaces;
-using OrbitAOS.Infrastructure.Services;
+using OrbitAOS.Application;
+using OrbitAOS.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -127,7 +127,7 @@ builder.Services.AddResponseCaching();
 //    All business logic lives in OrbitAOS.Application and
 //    OrbitAOS.Infrastructure; registered here via extension methods.
 // ------------------------------------------------------------------
-builder.Services.AddApplicationServices();   // defined in OrbitAOS.Application
+builder.Services.AddApplicationServices();                          // defined in OrbitAOS.Application
 builder.Services.AddInfrastructureServices(builder.Configuration); // defined in OrbitAOS.Infrastructure
 
 // ------------------------------------------------------------------

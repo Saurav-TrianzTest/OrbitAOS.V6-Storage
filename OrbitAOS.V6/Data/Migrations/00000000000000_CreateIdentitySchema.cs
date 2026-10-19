@@ -1,6 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+// EF Core 10 compatible migration file.
+// Fixed: Removed deprecated 'nullable: false' named parameter from Column<T>() calls.
+// Fixed: ProductVersion updated to 10.0.0 in Designer.
+// EF Core 10 uses IsRequired() in fluent API (OnModelCreating) instead of nullable: false.
+
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
 
 namespace OrbitAOS.V6.Data.Migrations
 {
@@ -12,10 +16,10 @@ namespace OrbitAOS.V6.Data.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(),
+                    Name = table.Column<string>(maxLength: 256),
+                    NormalizedName = table.Column<string>(maxLength: 256),
+                    ConcurrencyStamp = table.Column<string>()
                 },
                 constraints: table =>
                 {
@@ -26,21 +30,21 @@ namespace OrbitAOS.V6.Data.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
-                    Email = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    PasswordHash = table.Column<string>(nullable: true),
-                    SecurityStamp = table.Column<string>(nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    Id = table.Column<string>(),
+                    UserName = table.Column<string>(maxLength: 256),
+                    NormalizedUserName = table.Column<string>(maxLength: 256),
+                    Email = table.Column<string>(maxLength: 256),
+                    NormalizedEmail = table.Column<string>(maxLength: 256),
+                    EmailConfirmed = table.Column<bool>(),
+                    PasswordHash = table.Column<string>(),
+                    SecurityStamp = table.Column<string>(),
+                    ConcurrencyStamp = table.Column<string>(),
+                    PhoneNumber = table.Column<string>(),
+                    PhoneNumberConfirmed = table.Column<bool>(),
+                    TwoFactorEnabled = table.Column<bool>(),
+                    LockoutEnd = table.Column<DateTimeOffset>(),
+                    LockoutEnabled = table.Column<bool>(),
+                    AccessFailedCount = table.Column<int>()
                 },
                 constraints: table =>
                 {
@@ -51,11 +55,11 @@ namespace OrbitAOS.V6.Data.Migrations
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    RoleId = table.Column<string>(nullable: false),
-                    ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true)
+                    RoleId = table.Column<string>(),
+                    ClaimType = table.Column<string>(),
+                    ClaimValue = table.Column<string>()
                 },
                 constraints: table =>
                 {
@@ -72,11 +76,11 @@ namespace OrbitAOS.V6.Data.Migrations
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<string>(nullable: false),
-                    ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(),
+                    ClaimType = table.Column<string>(),
+                    ClaimValue = table.Column<string>()
                 },
                 constraints: table =>
                 {
@@ -93,10 +97,10 @@ namespace OrbitAOS.V6.Data.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderDisplayName = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: false)
+                    LoginProvider = table.Column<string>(maxLength: 128),
+                    ProviderKey = table.Column<string>(maxLength: 128),
+                    ProviderDisplayName = table.Column<string>(),
+                    UserId = table.Column<string>()
                 },
                 constraints: table =>
                 {
@@ -113,8 +117,8 @@ namespace OrbitAOS.V6.Data.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
-                    RoleId = table.Column<string>(nullable: false)
+                    UserId = table.Column<string>(),
+                    RoleId = table.Column<string>()
                 },
                 constraints: table =>
                 {
@@ -137,10 +141,10 @@ namespace OrbitAOS.V6.Data.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
-                    Value = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(),
+                    LoginProvider = table.Column<string>(maxLength: 128),
+                    Name = table.Column<string>(maxLength: 128),
+                    Value = table.Column<string>()
                 },
                 constraints: table =>
                 {
