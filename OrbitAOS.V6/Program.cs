@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using OrbitAOS.V6.Data;
 
@@ -14,6 +15,10 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+// Register a no-op email sender for development.
+// Replace with a real IEmailSender implementation (SendGrid, MailKit, SMTP) for production.
+builder.Services.AddTransient<IEmailSender, Microsoft.AspNetCore.Identity.UI.Services.NoOpEmailSender>();
 
 var app = builder.Build();
 
