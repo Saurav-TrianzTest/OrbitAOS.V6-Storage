@@ -1,0 +1,93 @@
+{
+  "executiveSummary": {
+    "updatesCompleted": 5,
+    "updatesFailed": 1,
+    "filesModified": 5,
+    "successRate": 83,
+    "description": "Upgraded the DotNetMVCUpgrade project from .NET 6 to .NET 8: retargeted TargetFramework to net8.0, updated all five Microsoft.AspNetCore.* and Microsoft.EntityFrameworkCore.* package references from 6.0.19 to 8.0.8, added Encrypt=False to the SQL Server connection string to preserve pre-EF Core 7 localdb behaviour, and updated the stale ProductVersion annotations in the EF Core migration snapshot and Designer files from 3.0.0 to 8.0.8. The project builds successfully with dotnet build (0 errors, 0 warnings)."
+  },
+  "fixedUpdates": [
+    {
+      "title": "Update TargetFramework from net6.0 to net8.0",
+      "filePath": "OrbitAOS.V6/OrbitAOS.V6.csproj (Line 4)",
+      "severity": "Critical",
+      "category": "project-configuration",
+      "impact": "Required for .NET 8 compilation and runtime; the project will not build or run on .NET 8 with net6.0 target.",
+      "originalCode": "<TargetFramework>net6.0</TargetFramework>",
+      "fixedCode": "<TargetFramework>net8.0</TargetFramework>",
+      "issueIds": ["issue-1"]
+    },
+    {
+      "title": "Update all five PackageReference entries from 6.0.19 to 8.0.8",
+      "filePath": "OrbitAOS.V6/OrbitAOS.V6.csproj (Lines 11-15)",
+      "severity": "High",
+      "category": "package-references",
+      "impact": "Resolve package downgrade (NU1603) conflicts and restore/build failures caused by old 6.0.x framework packages clashing with the .NET 8 runtime packages.",
+      "originalCode": "<PackageReference Include=\"Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore\" Version=\"6.0.19\" />\n<PackageReference Include=\"Microsoft.AspNetCore.Identity.EntityFrameworkCore\" Version=\"6.0.19\" />\n<PackageReference Include=\"Microsoft.AspNetCore.Identity.UI\" Version=\"6.0.19\" />\n<PackageReference Include=\"Microsoft.EntityFrameworkCore.SqlServer\" Version=\"6.0.19\" />\n<PackageReference Include=\"Microsoft.EntityFrameworkCore.Tools\" Version=\"6.0.19\" />",
+      "fixedCode": "<PackageReference Include=\"Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore\" Version=\"8.0.8\" />\n<PackageReference Include=\"Microsoft.AspNetCore.Identity.EntityFrameworkCore\" Version=\"8.0.8\" />\n<PackageReference Include=\"Microsoft.AspNetCore.Identity.UI\" Version=\"8.0.8\" />\n<PackageReference Include=\"Microsoft.EntityFrameworkCore.SqlServer\" Version=\"8.0.8\" />\n<PackageReference Include=\"Microsoft.EntityFrameworkCore.Tools\" Version=\"8.0.8\" />",
+      "issueIds": ["issue-2"]
+    },
+    {
+      "title": "Add Encrypt=False to DefaultConnection connection string",
+      "filePath": "OrbitAOS.V6/appsettings.json (Line 3)",
+      "severity": "High",
+      "category": "entity-framework",
+      "impact": "EF Core 7+ (used by .NET 8) encrypts SQL Server connections by default and rejects server certificates the host does not trust, causing runtime connection failures against localdb; Encrypt=False preserves the pre-EF Core 7 behaviour.",
+      "originalCode": "\"DefaultConnection\": \"Server=(localdb)\\\\mssqllocaldb;Database=aspnet-OrbitAOS.V6-afe03967-a771-44f8-b4ff-ee887e025b4f;Trusted_Connection=True;MultipleActiveResultSets=true\"",
+      "fixedCode": "\"DefaultConnection\": \"Server=(localdb)\\\\mssqllocaldb;Database=aspnet-OrbitAOS.V6-afe03967-a771-44f8-b4ff-ee887e025b4f;Trusted_Connection=True;MultipleActiveResultSets=true;Encrypt=False\"",
+      "issueIds": ["issue-3"]
+    },
+    {
+      "title": "Update ProductVersion annotation from 3.0.0 to 8.0.8 in ModelSnapshot",
+      "filePath": "OrbitAOS.V6/Data/Migrations/ApplicationDbContextModelSnapshot.cs (Line 18)",
+      "severity": "Medium",
+      "category": "entity-framework",
+      "impact": "EF Core 8 emits warnings and may treat the snapshot as out of date when the ProductVersion annotation is stale; updating it keeps the migration model in sync with EF Core 8.",
+      "originalCode": ".HasAnnotation(\"ProductVersion\", \"3.0.0\")",
+      "fixedCode": ".HasAnnotation(\"ProductVersion\", \"8.0.8\")",
+      "issueIds": ["issue-4"]
+    },
+    {
+      "title": "Update ProductVersion annotation from 3.0.0 to 8.0.8 in migration Designer file",
+      "filePath": "OrbitAOS.V6/Data/Migrations/00000000000000_CreateIdentitySchema.Designer.cs (Line 20)",
+      "severity": "Medium",
+      "category": "entity-framework",
+      "impact": "EF Core 8 emits warnings and may treat the migration model as out of date when the ProductVersion annotation is stale; updating it keeps the migration in sync with EF Core 8.",
+      "originalCode": ".HasAnnotation(\"ProductVersion\", \"3.0.0\")",
+      "fixedCode": ".HasAnnotation(\"ProductVersion\", \"8.0.8\")",
+      "issueIds": ["issue-5"]
+    }
+  ],
+  "failedUpdates": [
+    {
+      "title": "Upgrade bundled Bootstrap 5.1.0 and jQuery static assets in wwwroot/lib",
+      "filePath": "OrbitAOS.V6/wwwroot/lib",
+      "severity": "Low",
+      "category": "dependencies",
+      "failureReason": "Not needed: the analysis report and recommendations explicitly state these static asset upgrades are not .NET upgrade blockers; they restore and build on net8.0 with no run-time break, and no skill read names a .NET 8 run-time break for them.",
+      "suggestedApproach": "Upgrade Bootstrap and jQuery static assets separately as a security/maintenance task, independent of the .NET 8 upgrade.",
+      "issueIds": []
+    }
+  ],
+  "applicationInfo": {
+    "applicationName": "DotNetMVCUpgrade",
+    "applicationOwner": "",
+    "metadata": {
+      "techStack": [".NET"],
+      "components": 1,
+      "currentVersion": "6.0",
+      "targetVersion": "8"
+    }
+  },
+  "reportMetadata": {
+    "reportType": "Post-Transformation Report: M-Upgrade",
+    "description": "Upgraded DotNetMVCUpgrade from .NET 6 to .NET 8: retargeted TargetFramework, updated five package references to 8.0.8, added Encrypt=False to the connection string, and updated stale EF Core ProductVersion annotations. Build succeeds with 0 errors and 0 warnings.",
+    "status": "completed",
+    "start": "2025-01-15T00:00:00Z",
+    "end": "2025-01-15T00:00:00Z"
+  },
+  "postTransformationGuidelines": [
+    "EF Core 8 encrypts SQL Server connections by default and rejects untrusted server certificates. The connection string was updated with Encrypt=False to preserve the pre-EF Core 7 localdb behaviour; for production, consider TrustServerCertificate=True or providing a trusted certificate to the SQL Server host.",
+    "The ProductVersion annotations in the EF Core migration snapshot and Designer files were manually updated to 8.0.8 to match the upgraded packages. If new migrations are added, regenerate them with 'dotnet ef migrations add' to ensure the annotations stay in sync."
+  ]
+}
