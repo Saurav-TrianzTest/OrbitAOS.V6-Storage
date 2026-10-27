@@ -8,8 +8,6 @@
     <UserSecretsId>aspnet-OrbitAOS.V6-afe03967-a771-44f8-b4ff-ee887e025b4f</UserSecretsId>
     <!-- Treat warnings as errors for production quality -->
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <!-- Enable nullable reference types analysis -->
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,6 +20,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <!-- EF Core health check integration for AddDbContextCheck<T>() -->
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="8.0.0" />
   </ItemGroup>
 
 </Project>
