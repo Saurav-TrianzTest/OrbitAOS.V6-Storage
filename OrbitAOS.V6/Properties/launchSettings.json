@@ -1,4 +1,5 @@
-﻿{
+{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
@@ -8,7 +9,16 @@
     }
   },
   "profiles": {
-    "OrbitAOS.V6": {
+    "http": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:5008",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "https": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
