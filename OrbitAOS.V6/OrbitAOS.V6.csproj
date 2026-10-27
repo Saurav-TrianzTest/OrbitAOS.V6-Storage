@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <!-- Upgraded from net6.0 to net8.0 for .NET 8 LTS support -->
+    <!-- Targeting net8.0 for .NET 8 LTS support -->
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -11,11 +11,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- All packages upgraded from 6.0.x to 8.0.x for .NET 8 compatibility -->
+    <!-- PostgreSQL provider packages replacing SQL Server packages -->
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
+    <!-- Npgsql EF Core provider for PostgreSQL (replaces Microsoft.EntityFrameworkCore.SqlServer) -->
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
+    <!-- Npgsql ADO.NET driver -->
+    <PackageReference Include="Npgsql" Version="8.0.5" />
+    <!-- EFCore.NamingConventions for snake_case naming convention support -->
+    <PackageReference Include="EFCore.NamingConventions" Version="8.0.0" />
+    <!-- Microsoft.EntityFrameworkCore.Relational for relational database support -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

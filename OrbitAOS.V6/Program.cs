@@ -8,21 +8,40 @@ var builder = WebApplication.CreateBuilder(args);
 
 // -----------------------------------------------------------------------
 // Data / EF Core configuration
-// Upgraded from EF Core 6 to EF Core 8 (Microsoft.EntityFrameworkCore.SqlServer 8.0.0)
-// Null guard added: throws InvalidOperationException if connection string is missing
+// Migrated from SQL Server (Microsoft.EntityFrameworkCore.SqlServer) to
+// PostgreSQL (Npgsql.EntityFrameworkCore.PostgreSQL 8.0.0).
+// Null guard added: throws InvalidOperationException if connection string is missing.
 // -----------------------------------------------------------------------
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+{
+    // UseNpgsql replaces UseSqlServer for PostgreSQL connectivity
+    options.UseNpgsql(connectionString, npgsqlOptions =>
+    {
+        // Configure retry policy for transient failures (PostgreSQL resilience)
+        npgsqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(30),
+            errorCodesToAdd: null);
+
+        // Configure migrations history table with snake_case naming for PostgreSQL
+        npgsqlOptions.MigrationsHistoryTable("__ef_migrations_history", "public");
+    });
+
+    // Enable snake_case naming convention for all database objects
+    options.UseSnakeCaseNamingConvention();
+
+    // Enable legacy timestamp behavior for DateTime compatibility with PostgreSQL
+    AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+});
 
 // Developer-friendly EF Core exception pages (development only)
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // -----------------------------------------------------------------------
 // ASP.NET Core Identity configuration
-// Upgraded from Identity 6.0.x to Identity 8.0.x
 // RequireConfirmedAccount = true enforces e-mail confirmation before sign-in
 // AddRoles<IdentityRole>() enables role-based authorization support
 // -----------------------------------------------------------------------

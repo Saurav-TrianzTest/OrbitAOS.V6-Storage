@@ -6,213 +6,237 @@ namespace OrbitAOS.V6.Data.Migrations
 {
     /// <summary>
     /// Initial migration that creates the ASP.NET Core Identity schema.
-    /// Updated for EF Core 8 compatibility:
-    ///   - Removed deprecated 'nullable:' positional parameter style (use type: "nvarchar(450)" etc.)
-    ///   - Replaced SqlServerValueGenerationStrategy.IdentityColumn annotation with
-    ///     ValueGeneratedOnAdd() + UseIdentityColumn() which is the EF Core 8 pattern.
-    ///   - Added #nullable disable pragma to suppress nullable warnings in auto-generated code.
+    /// Migrated from SQL Server to PostgreSQL (Npgsql.EntityFrameworkCore.PostgreSQL 8.0.0):
+    ///   - Replaced SQL Server types (nvarchar, bit, int identity, datetimeoffset)
+    ///     with PostgreSQL equivalents (text/character varying, boolean, integer, timestamp with time zone).
+    ///   - Removed SqlServer:Identity annotations; PostgreSQL uses serial/GENERATED ALWAYS AS IDENTITY.
+    ///   - Replaced SQL Server filtered index syntax ([col] IS NOT NULL) with PostgreSQL WHERE clause.
+    ///   - Table and column names use snake_case convention via UseSnakeCaseNamingConvention().
     /// </summary>
     public partial class CreateIdentitySchema : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(name: "public");
+
             migrationBuilder.CreateTable(
-                name: "AspNetRoles",
+                name: "asp_net_roles",
+                schema: "public",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    id = table.Column<string>(type: "character varying(450)", nullable: false),
+                    name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    normalized_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    concurrency_stamp = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                    table.PrimaryKey("pk_asp_net_roles", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
+                name: "asp_net_users",
+                schema: "public",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                    id = table.Column<string>(type: "character varying(450)", nullable: false),
+                    user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    normalized_user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    normalized_email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    email_confirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    password_hash = table.Column<string>(type: "text", nullable: true),
+                    security_stamp = table.Column<string>(type: "text", nullable: true),
+                    concurrency_stamp = table.Column<string>(type: "text", nullable: true),
+                    phone_number = table.Column<string>(type: "text", nullable: true),
+                    phone_number_confirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    two_factor_enabled = table.Column<bool>(type: "boolean", nullable: false),
+                    lockout_end = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    lockout_enabled = table.Column<bool>(type: "boolean", nullable: false),
+                    access_failed_count = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.PrimaryKey("pk_asp_net_users", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetRoleClaims",
+                name: "asp_net_role_claims",
+                schema: "public",
                 columns: table => new
                 {
-                    // EF Core 8: UseIdentityColumn() replaces the deprecated SqlServer:ValueGenerationStrategy annotation
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    // PostgreSQL uses serial / GENERATED ALWAYS AS IDENTITY instead of SqlServer:Identity
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    role_id = table.Column<string>(type: "character varying(450)", nullable: false),
+                    claim_type = table.Column<string>(type: "text", nullable: true),
+                    claim_value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.PrimaryKey("pk_asp_net_role_claims", x => x.id);
                     table.ForeignKey(
-                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
+                        name: "fk_asp_net_role_claims_asp_net_roles_role_id",
+                        column: x => x.role_id,
+                        principalTable: "asp_net_roles",
+                        principalSchema: "public",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserClaims",
+                name: "asp_net_user_claims",
+                schema: "public",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    user_id = table.Column<string>(type: "character varying(450)", nullable: false),
+                    claim_type = table.Column<string>(type: "text", nullable: true),
+                    claim_value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                    table.PrimaryKey("pk_asp_net_user_claims", x => x.id);
                     table.ForeignKey(
-                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        name: "fk_asp_net_user_claims_asp_net_users_user_id",
+                        column: x => x.user_id,
+                        principalTable: "asp_net_users",
+                        principalSchema: "public",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserLogins",
+                name: "asp_net_user_logins",
+                schema: "public",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    login_provider = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    provider_key = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    provider_display_name = table.Column<string>(type: "text", nullable: true),
+                    user_id = table.Column<string>(type: "character varying(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.PrimaryKey("pk_asp_net_user_logins", x => new { x.login_provider, x.provider_key });
                     table.ForeignKey(
-                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        name: "fk_asp_net_user_logins_asp_net_users_user_id",
+                        column: x => x.user_id,
+                        principalTable: "asp_net_users",
+                        principalSchema: "public",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserRoles",
+                name: "asp_net_user_roles",
+                schema: "public",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    user_id = table.Column<string>(type: "character varying(450)", nullable: false),
+                    role_id = table.Column<string>(type: "character varying(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.PrimaryKey("pk_asp_net_user_roles", x => new { x.user_id, x.role_id });
                     table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
+                        name: "fk_asp_net_user_roles_asp_net_roles_role_id",
+                        column: x => x.role_id,
+                        principalTable: "asp_net_roles",
+                        principalSchema: "public",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        name: "fk_asp_net_user_roles_asp_net_users_user_id",
+                        column: x => x.user_id,
+                        principalTable: "asp_net_users",
+                        principalSchema: "public",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserTokens",
+                name: "asp_net_user_tokens",
+                schema: "public",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    user_id = table.Column<string>(type: "character varying(450)", nullable: false),
+                    login_provider = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    name = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.PrimaryKey("pk_asp_net_user_tokens", x => new { x.user_id, x.login_provider, x.name });
                     table.ForeignKey(
-                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        name: "fk_asp_net_user_tokens_asp_net_users_user_id",
+                        column: x => x.user_id,
+                        principalTable: "asp_net_users",
+                        principalSchema: "public",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetRoleClaims_RoleId",
-                table: "AspNetRoleClaims",
-                column: "RoleId");
+                name: "ix_asp_net_role_claims_role_id",
+                schema: "public",
+                table: "asp_net_role_claims",
+                column: "role_id");
 
+            // PostgreSQL unique index – no SQL Server [col] IS NOT NULL filter syntax
             migrationBuilder.CreateIndex(
-                name: "RoleNameIndex",
-                table: "AspNetRoles",
-                column: "NormalizedName",
+                name: "role_name_index",
+                schema: "public",
+                table: "asp_net_roles",
+                column: "normalized_name",
                 unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
+                filter: "normalized_name IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserClaims_UserId",
-                table: "AspNetUserClaims",
-                column: "UserId");
+                name: "ix_asp_net_user_claims_user_id",
+                schema: "public",
+                table: "asp_net_user_claims",
+                column: "user_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserLogins_UserId",
-                table: "AspNetUserLogins",
-                column: "UserId");
+                name: "ix_asp_net_user_logins_user_id",
+                schema: "public",
+                table: "asp_net_user_logins",
+                column: "user_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserRoles_RoleId",
-                table: "AspNetUserRoles",
-                column: "RoleId");
+                name: "ix_asp_net_user_roles_role_id",
+                schema: "public",
+                table: "asp_net_user_roles",
+                column: "role_id");
 
             migrationBuilder.CreateIndex(
-                name: "EmailIndex",
-                table: "AspNetUsers",
-                column: "NormalizedEmail");
+                name: "email_index",
+                schema: "public",
+                table: "asp_net_users",
+                column: "normalized_email");
 
             migrationBuilder.CreateIndex(
-                name: "UserNameIndex",
-                table: "AspNetUsers",
-                column: "NormalizedUserName",
+                name: "user_name_index",
+                schema: "public",
+                table: "asp_net_users",
+                column: "normalized_user_name",
                 unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
+                filter: "normalized_user_name IS NOT NULL");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(name: "AspNetRoleClaims");
-            migrationBuilder.DropTable(name: "AspNetUserClaims");
-            migrationBuilder.DropTable(name: "AspNetUserLogins");
-            migrationBuilder.DropTable(name: "AspNetUserRoles");
-            migrationBuilder.DropTable(name: "AspNetUserTokens");
-            migrationBuilder.DropTable(name: "AspNetRoles");
-            migrationBuilder.DropTable(name: "AspNetUsers");
+            migrationBuilder.DropTable(name: "asp_net_role_claims", schema: "public");
+            migrationBuilder.DropTable(name: "asp_net_user_claims", schema: "public");
+            migrationBuilder.DropTable(name: "asp_net_user_logins", schema: "public");
+            migrationBuilder.DropTable(name: "asp_net_user_roles", schema: "public");
+            migrationBuilder.DropTable(name: "asp_net_user_tokens", schema: "public");
+            migrationBuilder.DropTable(name: "asp_net_roles", schema: "public");
+            migrationBuilder.DropTable(name: "asp_net_users", schema: "public");
         }
     }
 }
