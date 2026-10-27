@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OrbitAOS.V6.Models;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace OrbitAOS.V6.Controllers
 {
@@ -13,19 +14,22 @@ namespace OrbitAOS.V6.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            await Task.CompletedTask;
             return View();
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> Privacy()
         {
+            await Task.CompletedTask;
             return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public async Task<IActionResult> Error()
         {
+            await Task.CompletedTask;
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
