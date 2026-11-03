@@ -1,18 +1,40 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using OrbitAOS.V6.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+// Issue-13 fix: null check for connection string
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+// Issue-11/12 fix: use environment-based RequireConfirmedAccount and register IEmailSender
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+    options.SignIn.RequireConfirmedAccount = builder.Environment.IsProduction())
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+// Issue-12 fix: register no-op email sender for development.
+// Replace with a real IEmailSender implementation (SendGrid, SMTP) for production.
+builder.Services.AddSingleton<IEmailSender, NoOpEmailSender>();
+
 builder.Services.AddControllersWithViews();
+
+// Issue-16 fix: add health checks endpoint for container orchestration
+builder.Services.AddHealthChecks();
+
+// Issue-17/21 fix: configure HSTS with 365-day max-age for production
+builder.Services.AddHsts(options =>
+{
+    options.Preload = true;
+    options.IncludeSubDomains = true;
+    options.MaxAge = TimeSpan.FromDays(365);
+});
 
 var app = builder.Build();
 
@@ -24,7 +46,7 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    // Issue-17/21 fix: HSTS configured above with 365-day max-age
     app.UseHsts();
 }
 
@@ -35,6 +57,9 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Issue-16 fix: map health check endpoint for container orchestration and load balancers
+app.MapHealthChecks("/health");
 
 app.MapControllerRoute(
     name: "default",
