@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  orbitcontainer:
+    image: orbitcontainer:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=${ConnectionStrings__DefaultConnection:?set ConnectionStrings__DefaultConnection}
+      - DocsUrl=${DocsUrl:-https://docs.microsoft.com/aspnet/core}
+    volumes:
+      - orbitcontainer_logs:/app/logs
+      - ./OrbitAOS.V6/appsettings.json:/app/appsettings.json:ro
+
+volumes:
+  orbitcontainer_logs:
