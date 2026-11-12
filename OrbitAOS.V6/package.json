@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "purgecss --config purgecss.config.js"
+  },
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^6.0.0"
+  }
+}
