@@ -1,0 +1,13 @@
+{
+  "name": "orbitaos-v6",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PurgeCSS configuration for stripping unused CSS in the Docker build",
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^6.0.0",
+    "purgecss": "^5.0.0"
+  },
+  "scripts": {
+    "purge:css": "purgecss --config purgecss.config.js"
+  }
+}
