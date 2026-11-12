@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  orbitaaos-v6:
+    image: orbitaaos-v6:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      - TZ=UTC
+    volumes:
+      - logs:/app/logs
+      - ./OrbitAOS.V6/appsettings.Production.json:/app/appsettings.Production.json:ro
+    restart: unless-stopped
+
+volumes:
+  logs:

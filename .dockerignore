@@ -1,0 +1,14 @@
+bin/
+obj/
+.git/
+*.md
+.vs/
+.vscode/
+*.user
+*.suo
+.DS_Store
+launchSettings.json
+**/Migrations/*.cs.tmp
+Dockerfile
+.dockerignore
+.gitignore

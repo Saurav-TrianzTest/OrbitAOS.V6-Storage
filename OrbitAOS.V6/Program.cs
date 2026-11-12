@@ -13,6 +13,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
@@ -29,12 +30,43 @@ else
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx =>
+    {
+        var headers = ctx.Context.Response.GetTypedHeaders();
+        var path = ctx.File.Name;
+
+        // Fingerprinted/hashed assets — cache indefinitely
+        if (path.Contains('.') && System.Text.RegularExpressions.Regex.IsMatch(path, @"\.[a-f0-9]{8,}\."))
+        {
+            headers.CacheControl = new Microsoft.Net.Http.Headers.CacheControlHeaderValue
+            {
+                Public = true,
+                MaxAge = TimeSpan.FromDays(365),
+                Extensions = { new Microsoft.Net.Http.Headers.NameValueHeaderValue("immutable") }
+            };
+        }
+        else
+        {
+            // Non-fingerprinted assets — cache for 1 day with revalidation
+            headers.CacheControl = new Microsoft.Net.Http.Headers.CacheControlHeaderValue
+            {
+                Public = true,
+                MaxAge = TimeSpan.FromDays(1),
+                MustRevalidate = true
+            };
+            headers.Headers["Vary"] = "Accept-Encoding";
+        }
+    }
+});
 
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapHealthChecks("/health");
 
 app.MapControllerRoute(
     name: "default",

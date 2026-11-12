@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "private": true,
+  "description": "Build tooling for CSS purging in container image",
+  "scripts": {
+    "purgecss": "purgecss"
+  },
+  "devDependencies": {
+    "purgecss": "^5.0.1"
+  }
+}
