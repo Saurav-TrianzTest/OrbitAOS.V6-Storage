@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  orbita-os-v6:
+    image: orbita-os-v6:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING:?set DB_CONNECTION_STRING}
+    volumes:
+      - orbita-os-v6-logs:/app/logs
+      - ./OrbitAOS.V6/appsettings.json:/app/appsettings.json:ro
+      - ./OrbitAOS.V6/appsettings.Production.json:/app/appsettings.Production.json:ro
+
+volumes:
+  orbita-os-v6-logs:

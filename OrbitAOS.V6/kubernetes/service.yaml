@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: orbita-os-v6-service
+  namespace: orbita-os-v6
+  labels:
+    app: orbita-os-v6
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+      name: http
+  selector:
+    app: orbita-os-v6
