@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  orbitcontainerfix:
+    image: orbitcontainerfix:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      - DefaultConnection__ConnectionString=${DB_CONNECTION_STRING:?set DB_CONNECTION_STRING}
+      - DocsUrl=${DOCS_URL:-https://docs.microsoft.com/aspnet/core}
+    volumes:
+      - orbitcontainerfix-logs:/app/logs
+      - ./OrbitAOS.V6/appsettings.json:/app/appsettings.json:ro
+      - ./OrbitAOS.V6/appsettings.Production.json:/app/appsettings.Production.json:ro
+
+volumes:
+  orbitcontainerfix-logs:
